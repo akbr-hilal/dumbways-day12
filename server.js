@@ -48,8 +48,8 @@ db.connect(function (err, client, done) {
                     ),
                     isLogin: req.session.isLogin,
                 };
-            });
-
+            })
+            
             let filterProject;
             if (req.session.user) {
                 filterProject = dataProject.filter(function (items) {
