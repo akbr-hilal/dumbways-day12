@@ -7,13 +7,8 @@ const db = require("./database/db");
 const upload = require("./middlewares/fileUpload");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
-app.set("view engine", "hbs"); //Set hbs
-
-app.use("/assets", express.static(__dirname + "/assets"));
-app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(
     session({
@@ -25,6 +20,11 @@ app.use(
         },
     })
 );
+app.set("view engine", "hbs"); //Set hbs
+
+app.use("/assets", express.static(__dirname + "/assets"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use(express.urlencoded({ extended: false }));
 // ---------------------------------------------------------------------------------------------------
 db.connect(function (err, client, done) {
     if (err) throw err;
@@ -49,7 +49,7 @@ db.connect(function (err, client, done) {
                     isLogin: req.session.isLogin,
                 };
             })
-            
+
             let filterProject;
             if (req.session.user) {
                 filterProject = dataProject.filter(function (items) {
